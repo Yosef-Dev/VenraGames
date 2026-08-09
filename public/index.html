@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VenraGames</title>
+    <!-- استدعاء الخطوط العريضة والعصرية -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&family=Fredoka+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- خلفية متحركة ديناميكية -->
+    <div class="animated-background"></div>
+
+    <div id="app-container">
+        <!-- 1. شاشة التحميل (Loading Screen) -->
+        <div id="screen-loading" class="screen active">
+            <div class="logo-container floating">
+                <!-- لوجو مرسوم بكود SVG -->
+                <svg viewBox="0 0 100 100" class="main-logo-svg">
+                    <defs>
+                        <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#FF8C00;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M20,30 Q50,10 80,30 L90,60 Q50,90 10,60 Z" fill="url(#logoGrad)" stroke="#FFFFFF" stroke-width="5"/>
+                    <circle cx="35" cy="45" r="8" fill="#FFF"/>
+                    <circle cx="65" cy="45" r="8" fill="#FFF"/>
+                    <path d="M40,65 Q50,75 60,65" stroke="#FFF" stroke-width="4" fill="none" stroke-linecap="round"/>
+                </svg>
+                <h1 class="logo-text">VenraGames</h1>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar" id="loading-bar"></div>
+            </div>
+            <p class="loading-text pulse">جاري تحميل المتعة...</p>
+        </div>
+
+        <!-- 2. شاشة التسجيل (Registration Screen) -->
+        <div id="screen-register" class="screen">
+            <div class="panel window-pop">
+                <h2 class="panel-title">إنشاء حسابك</h2>
+                
+                <div class="avatar-upload-container">
+                    <div class="avatar-preview" id="avatar-preview">
+                        <svg viewBox="0 0 24 24" width="50" height="50" fill="#FFF"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                    </div>
+                    <label for="avatar-input" class="upload-btn">اختر صورة</label>
+                    <input type="file" id="avatar-input" accept="image/*" hidden>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" id="username-input" placeholder="أدخل اسمك هنا..." maxlength="15">
+                </div>
+
+                <button id="btn-save-profile" class="btn-3d btn-primary">حفظ وانطلق!</button>
+            </div>
+        </div>
+
+        <!-- البار العلوي (Top Bar) سيظهر في الشاشات القادمة -->
+        <div id="top-bar" class="top-bar hidden">
+            <div class="player-mini-profile">
+                <div class="mini-avatar" id="my-mini-avatar"></div>
+                <span id="my-mini-name" class="mini-name">اللاعب</span>
+            </div>
+            <div class="mini-logo">VenraGames</div>
+        </div>
+
+        <!-- 3. الشاشة الرئيسية (Main Screen) -->
+        <div id="screen-main" class="screen">
+            <div class="main-menu-content window-pop">
+                <div class="character-mascot floating">🚀</div>
+                <button id="btn-play-random" class="btn-3d btn-play pulse">
+                    <span class="btn-icon">🎮</span> لعب عشوائياً
+                </button>
+                <button id="btn-history" class="btn-3d btn-secondary">
+                    <span class="btn-icon">📜</span> سجل المباريات
+                </button>
+            </div>
+        </div>
+
+        <!-- 4. شاشة الانتظار (Matchmaking Screen) -->
+        <div id="screen-waiting" class="screen">
+            <div class="radar-container">
+                <div class="radar-circle"></div>
+                <div class="radar-circle pulse-1"></div>
+                <div class="radar-circle pulse-2"></div>
+                <div class="radar-avatar" id="searching-avatar"></div>
+            </div>
+            <h2 class="waiting-text">جاري البحث عن منافس عالمي...</h2>
+            <button id="btn-cancel-search" class="btn-3d btn-danger">إلغاء</button>
+        </div>
+
+        <!-- 5. شاشة اللعب والأسئلة (Game Screen) -->
+        <div id="screen-game" class="screen">
+            <div class="match-header slide-down">
+                <div class="player-card">
+                    <div class="avatar-ring p1-ring"><div class="ingame-avatar" id="ingame-p1-avatar"></div></div>
+                    <span class="ingame-name" id="ingame-p1-name">أنا</span>
+                    <div class="score-badge" id="p1-score">0</div>
+                </div>
+                <div class="vs-badge pulse">VS</div>
+                <div class="player-card">
+                    <div class="score-badge" id="p2-score">0</div>
+                    <span class="ingame-name" id="ingame-p2-name">الخصم</span>
+                    <div class="avatar-ring p2-ring"><div class="ingame-avatar" id="ingame-p2-avatar"></div></div>
+                </div>
+            </div>
+
+            <div class="timer-container">
+                <div class="timer-bar" id="game-timer"></div>
+                <span class="timer-text" id="timer-text">5:00</span>
+            </div>
+
+            <div class="question-container window-pop">
+                <span class="question-number">سؤال <span id="q-num">1</span>/10</span>
+                <h2 id="question-text">جاري تحميل السؤال...</h2>
+            </div>
+
+            <div class="options-grid" id="options-container">
+                <!-- سيتم حقن الأزرار هنا عبر الجافاسكربت -->
+            </div>
+        </div>
+
+        <!-- 6. شاشة النتيجة (Result Screen) -->
+        <div id="screen-result" class="screen">
+            <div class="result-panel window-pop">
+                <div id="result-icon" class="result-icon zoom-in">🏆</div>
+                <h1 id="result-title" class="result-title">لقد فزت!</h1>
+                <p id="result-msg" class="result-msg">أداء أسطوري يا بطل!</p>
+                
+                <div class="stats-box">
+                    <div class="stat"><span class="stat-label">نقاطك</span><span id="res-my-score" class="stat-val">0</span></div>
+                    <div class="stat"><span class="stat-label">نقاط الخصم</span><span id="res-opp-score" class="stat-val">0</span></div>
+                </div>
+
+                <button id="btn-return-home" class="btn-3d btn-primary">العودة للرئيسية</button>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- Socket.io & App Logic -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/app.js"></script>
+</body>
+      </html>
+  
