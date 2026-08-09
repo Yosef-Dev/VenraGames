@@ -1,0 +1,554 @@
+/* =========================================
+   متغيرات الألوان والتصميم (Theming)
+   ========================================= */
+:root {
+    --primary: #FFCC00;       /* أصفر فاقع */
+    --primary-dark: #D4A000;
+    --primary-shadow: #997300;
+    
+    --secondary: #00D2FF;     /* أزرق سماوي */
+    --secondary-dark: #0099CC;
+    --secondary-shadow: #006699;
+
+    --success: #33CC33;       /* أخضر */
+    --success-dark: #248F24;
+    --success-shadow: #145214;
+
+    --danger: #FF3366;        /* أحمر وردي */
+    --danger-dark: #CC0033;
+    --danger-shadow: #800020;
+
+    --bg-dark: #1A1A2E;
+    --bg-panel: rgba(255, 255, 255, 0.95);
+    
+    --font-ar: 'Cairo', sans-serif;
+    --font-en: 'Fredoka One', cursive;
+}
+
+/* =========================================
+   إعدادات عامة (Global Reset)
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none; /* منع تحديد النصوص في الألعاب */
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: var(--font-ar);
+    background: linear-gradient(135deg, #1A2980 0%, #26D0CE 100%);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+}
+
+/* خلفية متحركة ديناميكية */
+.animated-background {
+    position: absolute;
+    top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 10%, transparent 10%),
+                radial-gradient(circle, rgba(255,255,255,0.1) 10%, transparent 10%);
+    background-size: 50px 50px;
+    background-position: 0 0, 25px 25px;
+    animation: bgPan 20s linear infinite;
+    z-index: 0;
+}
+
+#app-container {
+    position: relative;
+    width: 100%;
+    max-width: 480px; /* مقاس الموبايل */
+    height: 100vh;
+    max-height: 900px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 40px rgba(0,0,0,0.5);
+    overflow: hidden;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* =========================================
+   إدارة الشاشات (Screen Management)
+   ========================================= */
+.screen {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    display: none; /* مخفية افتراضياً */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.screen.active {
+    display: flex;
+    z-index: 10;
+}
+
+.hidden { display: none !important; }
+
+/* =========================================
+   شاشة التحميل واللوجو (Loading & Logo)
+   ========================================= */
+.logo-container {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.main-logo-svg {
+    width: 150px;
+    height: 150px;
+    filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.5));
+}
+
+.logo-text {
+    font-family: var(--font-en);
+    font-size: 3rem;
+    color: #FFF;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 5px 0 #FF8C00, 0 10px 10px rgba(0,0,0,0.5);
+    margin-top: -10px;
+}
+
+.progress-container {
+    width: 80%;
+    height: 25px;
+    background: rgba(0,0,0,0.4);
+    border-radius: 20px;
+    border: 3px solid #FFF;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 5px 10px rgba(0,0,0,0.5);
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), #FFF5CC);
+    border-radius: 15px;
+    transition: width 0.3s ease;
+    box-shadow: inset 0 -5px 0 rgba(0,0,0,0.2);
+}
+
+.loading-text {
+    color: #FFF;
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* =========================================
+   النوافذ والأزرار الكرتونية (3D UI Elements)
+   ========================================= */
+.panel {
+    background: var(--bg-panel);
+    width: 95%;
+    border-radius: 30px;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 20px 0 rgba(0,0,0,0.2), inset 0 5px 0 #FFF;
+    border: 4px solid #E0E0E0;
+}
+
+.panel-title {
+    font-size: 2rem;
+    color: var(--secondary-dark);
+    margin-bottom: 25px;
+    text-shadow: 0 2px 0 #FFF;
+}
+
+/* الأزرار ثلاثية الأبعاد (Subway Style) */
+.btn-3d {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 15px 20px;
+    font-family: var(--font-ar);
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #FFF;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.1s ease;
+    margin-bottom: 15px;
+    outline: none;
+}
+
+/* تأثير الضغط (Active State) */
+.btn-3d:active {
+    transform: translateY(10px);
+}
+
+.btn-primary {
+    background: var(--success);
+    box-shadow: 0 10px 0 var(--success-shadow), inset 0 -5px 0 var(--success-dark), inset 0 5px 0 rgba(255,255,255,0.4);
+    text-shadow: 0 2px 2px rgba(0,0,0,0.3);
+}
+.btn-primary:active {
+    box-shadow: 0 0px 0 var(--success-shadow), inset 0 -2px 0 var(--success-dark);
+}
+
+.btn-play {
+    background: var(--primary);
+    color: #804000;
+    font-size: 2rem;
+    padding: 20px;
+    border-radius: 25px;
+    box-shadow: 0 12px 0 var(--primary-shadow), inset 0 -6px 0 var(--primary-dark), inset 0 6px 0 rgba(255,255,255,0.6);
+}
+.btn-play:active {
+    box-shadow: 0 0px 0 var(--primary-shadow), inset 0 -2px 0 var(--primary-dark);
+}
+
+.btn-secondary {
+    background: var(--secondary);
+    box-shadow: 0 10px 0 var(--secondary-shadow), inset 0 -5px 0 var(--secondary-dark), inset 0 5px 0 rgba(255,255,255,0.4);
+}
+.btn-secondary:active {
+    box-shadow: 0 0px 0 var(--secondary-shadow), inset 0 -2px 0 var(--secondary-dark);
+}
+
+.btn-danger {
+    background: var(--danger);
+    box-shadow: 0 10px 0 var(--danger-shadow), inset 0 -5px 0 var(--danger-dark), inset 0 5px 0 rgba(255,255,255,0.4);
+}
+.btn-danger:active {
+    box-shadow: 0 0px 0 var(--danger-shadow), inset 0 -2px 0 var(--danger-dark);
+}
+
+.btn-icon { margin-left: 10px; font-size: 1.2em; }
+
+/* =========================================
+   المدخلات (Inputs & Avatars)
+   ========================================= */
+.avatar-upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.avatar-preview {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: var(--secondary);
+    border: 6px solid #FFF;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3), inset 0 -10px 20px rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    margin-bottom: 15px;
+    background-size: cover;
+    background-position: center;
+}
+
+.upload-btn {
+    background: var(--secondary-dark);
+    color: #FFF;
+    padding: 8px 20px;
+    border-radius: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 0 var(--secondary-shadow);
+}
+.upload-btn:active { transform: translateY(4px); box-shadow: 0 0 0; }
+
+.input-group input {
+    width: 100%;
+    padding: 15px 20px;
+    font-size: 1.5rem;
+    font-family: var(--font-ar);
+    font-weight: bold;
+    border: 4px solid #E0E0E0;
+    border-radius: 20px;
+    text-align: center;
+    margin-bottom: 25px;
+    background: #F9F9F9;
+    color: var(--bg-dark);
+    box-shadow: inset 0 5px 10px rgba(0,0,0,0.05);
+    outline: none;
+    transition: border 0.3s;
+}
+.input-group input:focus {
+    border-color: var(--secondary);
+}
+
+/* =========================================
+   البار العلوي (Top Bar)
+   ========================================= */
+.top-bar {
+    position: absolute;
+    top: 0; left: 0; width: 100%;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(5px);
+    z-index: 20;
+    border-bottom: 2px solid rgba(255,255,255,0.2);
+}
+
+.player-mini-profile {
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.9);
+    padding: 5px 15px 5px 5px;
+    border-radius: 30px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.mini-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    border: 2px solid #FFF;
+    margin-left: 10px;
+    background-size: cover;
+}
+
+.mini-name {
+    font-weight: bold;
+    color: var(--bg-dark);
+}
+
+.mini-logo {
+    font-family: var(--font-en);
+    color: #FFF;
+    font-size: 1.5rem;
+    text-shadow: 0 3px 0 #FF8C00;
+}
+
+/* =========================================
+   شاشة الانتظار (Radar / Matchmaking)
+   ========================================= */
+.radar-container {
+    position: relative;
+    width: 200px; height: 200px;
+    display: flex; justify-content: center; align-items: center;
+    margin-bottom: 40px;
+}
+
+.radar-avatar {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: var(--secondary);
+    border: 4px solid #FFF;
+    z-index: 5;
+    background-size: cover;
+    background-position: center;
+}
+
+.radar-circle {
+    position: absolute;
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 204, 0, 0.8);
+    opacity: 0;
+}
+
+.waiting-text {
+    color: #FFF;
+    font-size: 1.5rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* =========================================
+   شاشة اللعب (Gameplay UI)
+   ========================================= */
+.match-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 80px 10px 10px 10px; /* تفادي البار العلوي */
+}
+
+.player-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(0,0,0,0.4);
+    padding: 10px;
+    border-radius: 20px;
+    border: 2px solid rgba(255,255,255,0.3);
+}
+
+.avatar-ring {
+    width: 70px; height: 70px;
+    border-radius: 50%;
+    padding: 4px;
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    margin-bottom: 5px;
+}
+.p2-ring { background: linear-gradient(135deg, #00D2FF, #3A7BD5); }
+
+.ingame-avatar {
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    background-color: #FFF;
+    border: 2px solid #333;
+    background-size: cover;
+}
+
+.ingame-name {
+    color: #FFF; font-weight: bold; font-size: 1.1rem;
+    text-shadow: 0 2px 2px #000;
+}
+
+.score-badge {
+    background: #FFF;
+    color: var(--danger-dark);
+    font-family: var(--font-en);
+    font-size: 1.5rem;
+    padding: 2px 15px;
+    border-radius: 15px;
+    margin-top: -10px;
+    z-index: 2;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.3);
+    border: 2px solid #333;
+}
+
+.vs-badge {
+    font-family: var(--font-en);
+    font-size: 3rem;
+    color: var(--primary);
+    text-shadow: 0 5px 0 var(--danger), 0 10px 10px rgba(0,0,0,0.5);
+}
+
+/* المؤقت */
+.timer-container {
+    width: 90%; height: 30px;
+    background: rgba(0,0,0,0.5);
+    border-radius: 15px;
+    border: 3px solid #FFF;
+    margin: 15px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.timer-bar {
+    height: 100%; width: 100%;
+    background: var(--success);
+    border-radius: 10px;
+    transition: width 1s linear, background-color 0.5s;
+}
+
+.timer-text {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-en);
+    color: #FFF;
+    font-size: 1.2rem;
+    text-shadow: 0 2px 4px #000;
+}
+
+/* السؤال والإجابات */
+.question-container {
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.question-number {
+    display: inline-block;
+    background: var(--primary);
+    color: #000;
+    padding: 5px 15px;
+    border-radius: 15px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    box-shadow: 0 3px 0 var(--primary-shadow);
+}
+
+#question-text {
+    font-size: 1.5rem;
+    line-height: 1.4;
+    color: #333;
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    width: 95%;
+}
+
+.btn-option {
+    background: #FFF;
+    color: var(--bg-dark);
+    font-size: 1.2rem;
+    font-family: var(--font-ar);
+    font-weight: bold;
+    padding: 20px 10px;
+    border: 3px solid #E0E0E0;
+    border-radius: 20px;
+    box-shadow: 0 8px 0 #CCC;
+    cursor: pointer;
+    transition: all 0.1s;
+    outline: none;
+}
+.btn-option:active {
+    transform: translateY(8px);
+    box-shadow: 0 0px 0 #CCC;
+}
+.btn-option.correct {
+    background: var(--success); color: #FFF; border-color: var(--success-shadow); box-shadow: 0 8px 0 var(--success-shadow);
+}
+.btn-option.wrong {
+    background: var(--danger); color: #FFF; border-color: var(--danger-shadow); box-shadow: 0 8px 0 var(--danger-shadow);
+}
+.btn-option:disabled { opacity: 0.7; pointer-events: none; }
+
+/* =========================================
+   شاشة النتيجة (Result)
+   ========================================= */
+.result-icon {
+    font-size: 5rem; margin-bottom: 10px; filter: drop-shadow(0 10px 5px rgba(0,0,0,0.3));
+}
+.result-title { font-size: 3rem; color: var(--primary); text-shadow: 0 4px 0 #000; margin-bottom: 5px; }
+.result-msg { font-size: 1.2rem; font-weight: bold; margin-bottom: 20px; color: #555; }
+.stats-box {
+    display: flex; justify-content: space-around; width: 100%;
+    background: #F0F0F0; border-radius: 15px; padding: 15px; margin-bottom: 25px;
+    box-shadow: inset 0 5px 10px rgba(0,0,0,0.1);
+}
+.stat { display: flex; flex-direction: column; align-items: center; }
+.stat-label { font-size: 1rem; color: #888; font-weight: bold; }
+.stat-val { font-size: 2.5rem; font-family: var(--font-en); color: var(--secondary-dark); }
+
+/* =========================================
+   الحركات (Keyframe Animations)
+   ========================================= */
+@keyframes bgPan { 0% { background-position: 0 0, 25px 25px; } 100% { background-position: 100px 100px, 125px 125px; } }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+@keyframes pulseScale { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+@keyframes windowPop { 0% { transform: scale(0.5); opacity: 0; } 70% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes radarPulse { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(3); opacity: 0; } }
+@keyframes zoomIn { 0% { transform: scale(0) rotate(-10deg); opacity: 0; } 100% { transform: scale(1) rotate(0); opacity: 1; } }
+
+.floating { animation: float 3s ease-in-out infinite; }
+.pulse { animation: pulseScale 2s infinite; }
+.window-pop { animation: windowPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+.slide-down { animation: slideDown 0.5s ease-out forwards; }
+.zoom-in { animation: zoomIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+.pulse-1 { animation: radarPulse 2s linear infinite; }
+.pulse-2 { animation: radarPulse 2s linear infinite; animation-delay: 1s; }
+  
